@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bulk Link Launcher</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Bulk Link Launcher</h2>
+
+  <!-- Base link input -->
+  <!-- <input
+    type="text"
+    id="baseLink"
+    placeholder="Enter base link (example: https://site.com/?id=)"
+  /> -->
+
+  <!-- Params textarea -->
+  <textarea
+    id="params"
+    placeholder="Enter parameters, one per line"
+  ></textarea>
+  <ul id="links">
+  
+  </ul>
+
+  <!-- Launch button -->
+   <button onclick="launchLinks()">Launch</button>
+
+  <script>
+    function launchLinks() {
+      // const baseLink = document.getElementById("baseLink").value.trim();
+      const paramsText = document.getElementById("params").value.trim();
+
+      //if (!baseLink || !paramsText) {
+       // alert("Please enter both the link and parameters.");
+      //  return;
+     // }
+
+      const params = paramsText.split("\n");
+ul=""
+      params.forEach(param => {
+        const cleanParam = param.trim();
+        if (cleanParam) {
+          //const finalUrl = baseLink + encodeURIComponent(cleanParam);
+         // window.open(finalUrl, "_blank");
+		 ul+= `<a target='_blank' href=http://95.216.72.6:90/deployment/deploy?action=test&id=${encodeURIComponent(cleanParam)}>${encodeURIComponent(cleanParam)}</a><br/>`
+		 
+		 
+        }
+      });
+	  
+	  document.getElementById("links").innerHTML = ul;
+    }
+  </script>
+
+</body>
+</html>

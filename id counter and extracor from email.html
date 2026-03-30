@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>9-Digit Number Extractor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Extract & Count 9-Digit Numbers</h2>
+
+  <textarea id="input" placeholder="Paste text or filenames here..."></textarea>
+  <br><br>
+  <button onclick="processText()">Extract</button>
+
+  <h3>Result</h3>
+  <pre id="output"></pre>
+    <pre id="output2"></pre>
+
+  <script>
+    function processText() {
+      const text = document.getElementById("input").value;
+      const matches = text.match(/\b\d{9}\b/g) || [];
+
+      const counts = {};
+      for (const num of matches) {
+        counts[num] = (counts[num] || 0) + 1;
+      }
+
+      document.getElementById("output").textContent =
+        JSON.stringify(counts, null, 2);
+		
+		 document.getElementById("output2").textContent =
+        JSON.stringify(matches, null, 2);
+    }
+  </script>
+
+</body>
+</html>

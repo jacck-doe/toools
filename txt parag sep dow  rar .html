@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Paragraphs to ZIP</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { padding: 10px 15px; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+<h2>Upload File → Download ZIP</h2>
+
+<input type="file" id="fileInput" accept=".txt">
+<br><br>
+<button onclick="processFile()">Download ZIP</button>
+
+<script>
+
+function randomString(length = 10) {
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    result += chars[randomIndex];
+  }
+  
+  return result;
+}
+	
+async function processFile() {
+  const fileInput = document.getElementById("fileInput");
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Upload a file first!");
+    return;
+  }
+
+  const text = await file.text();
+  const paragraphs = text.split("__SEP__");
+
+  const zip = new JSZip();
+  let count = 0;
+
+  paragraphs.forEach((para, index) => {
+    const content = para.trim();
+    if (content !== "") {
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  
+  for (let i = 0; i < 10; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+  //  result += chars[randomIndex];
+  }
+  
+      zip.file(`src_${index + 1}.txt`, content);
+      count++;
+    }
+  });
+
+  if (count === 0) {
+    alert("No paragraphs found!");
+    return;
+  }
+
+  const zipBlob = await zip.generateAsync({ type: "blob" });
+
+  const url = URL.createObjectURL(zipBlob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "txt to tstin zip file.zip";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>

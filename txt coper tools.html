@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TXT File Copy Tool</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+.file-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+textarea {
+    width: 100%;
+    height: 120px;
+    margin-top: 10px;
+}
+button {
+    margin-top: 10px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<h2>Upload TXT Files</h2>
+<input type="file" id="fileInput" multiple accept=".txt">
+
+<div id="output"></div>
+
+<script>
+document.getElementById("fileInput").addEventListener("change", function(event) {
+    const files = event.target.files;
+    const output = document.getElementById("output");
+    output.innerHTML = "";
+
+    Array.from(files).forEach((file, index) => {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const content = e.target.result;
+
+            const container = document.createElement("div");
+            container.className = "file-box";
+
+            const title = document.createElement("h3");
+            title.textContent = "File: " + file.name;
+
+            const textarea = document.createElement("textarea");
+            textarea.value = content;
+            textarea.id = "textarea_" + index;
+
+            const button = document.createElement("button");
+            button.textContent = "Copy Content";
+            button.onclick = function() {
+                textarea.select();
+                textarea.setSelectionRange(0, 999999);
+                document.execCommand("copy");
+                // alert("Copied: " + file.name);
+            };
+
+            container.appendChild(title);
+            container.appendChild(textarea);
+            container.appendChild(button);
+            output.appendChild(container);
+        };
+
+        reader.readAsText(file);
+    });
+});
+</script>
+
+</body>
+</html>

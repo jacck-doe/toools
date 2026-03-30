@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Generate ZIP with TXT Files</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+
+<h3>Generate Empty .txt Files (ZIP)</h3>
+
+<label>Start number:</label>
+<input type="number" id="startNum"><br><br>
+
+<label>End number:</label>
+<input type="number" id="endNum"><br><br>
+
+<button onclick="generateFiles()">Download ZIP</button>
+
+<script>
+async function generateFiles() {
+    const start = parseInt(document.getElementById("startNum").value);
+    const end = parseInt(document.getElementById("endNum").value);
+
+    if (isNaN(start) || isNaN(end) || start > end) {
+        alert("Enter a valid range (start <= end).");
+        return;
+    }
+
+    const zip = new JSZip();
+
+    for (let i = start; i <= end; i++) {
+        zip.file(`2026-${i}.txt`, "");
+    }
+
+    const content = await zip.generateAsync({ type: "blob" });
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(content);
+    a.download = "2026-files.zip";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+}
+</script>
+
+</body>
+</html>

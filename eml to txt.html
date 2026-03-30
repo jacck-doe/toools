@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Convert .eml to .txt (ZIP)</title>
+
+  <!-- JSZip library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+
+  <h2>Convert .eml files to .txt (ZIP)</h2>
+
+  <input type="file" id="fileInput" multiple accept=".eml"><br><br>
+  <button onclick="convertFiles()">Convert & Download ZIP</button>
+
+  <script>
+    function convertFiles() {
+      const files = document.getElementById('fileInput').files;
+
+      if (!files.length) {
+        alert('Please select some .eml files first.');
+        return;
+      }
+
+      const zip = new JSZip();
+      let filesProcessed = 0;
+
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          const txtName = file.name.replace(/\.eml$/i, '.txt');
+          zip.file(txtName, e.target.result);
+
+          filesProcessed++;
+
+          // When all files are processed, generate ZIP
+          if (filesProcessed === files.length) {
+            zip.generateAsync({ type: "blob" }).then(function(content) {
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(content);
+              link.download = "converted_eml_files.zip";
+              link.click();
+            });
+          }
+        };
+
+        reader.readAsText(file);
+      });
+    }
+  </script>
+
+</body>
+</html>
