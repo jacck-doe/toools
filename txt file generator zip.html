@@ -29,14 +29,14 @@ async function generateFiles() {
     const zip = new JSZip();
 
     for (let i = start; i <= end; i++) {
-        zip.file(`2026-${i}.txt`, "");
+        zip.file(`txt -${i}.txt`, "");
     }
 
     const content = await zip.generateAsync({ type: "blob" });
 
     const a = document.createElement("a");
     a.href = URL.createObjectURL(content);
-    a.download = "2026-files.zip";
+    a.download = "2026 april-files.zip";
     document.body.appendChild(a);
     a.click();
     a.remove();
